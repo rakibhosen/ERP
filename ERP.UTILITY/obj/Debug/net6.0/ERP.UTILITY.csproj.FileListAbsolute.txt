@@ -1,0 +1,12 @@
+E:\PTL_DEMO\ERP\ERP.UTILITY\bin\Debug\net6.0\ERP.UTILITY.deps.json
+E:\PTL_DEMO\ERP\ERP.UTILITY\bin\Debug\net6.0\ERP.UTILITY.dll
+E:\PTL_DEMO\ERP\ERP.UTILITY\bin\Debug\net6.0\ERP.UTILITY.pdb
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ERP.UTILITY.csproj.AssemblyReference.cache
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ERP.UTILITY.GeneratedMSBuildEditorConfig.editorconfig
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ERP.UTILITY.AssemblyInfoInputs.cache
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ERP.UTILITY.AssemblyInfo.cs
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ERP.UTILITY.csproj.CoreCompileInputs.cache
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ERP.UTILITY.dll
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\refint\ERP.UTILITY.dll
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ERP.UTILITY.pdb
+E:\PTL_DEMO\ERP\ERP.UTILITY\obj\Debug\net6.0\ref\ERP.UTILITY.dll

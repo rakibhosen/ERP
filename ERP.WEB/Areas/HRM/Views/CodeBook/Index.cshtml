@@ -1,0 +1,101 @@
+﻿@using ERP.ENTITY.Models.HRM._01.CodeBook
+@model List<codebook>
+
+    <div class="card">
+        <div class="card-header">
+            
+
+                <form asp-action="Index" method="post">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label for="codeId">Select Code Group:</label>
+                        <select class="form-control" id="codeId" name="id">
+                            <option disabled selected>Select Code Group</option>
+                            @foreach (var codeBook in ViewBag.CodeBookList)
+                            {
+                                var selected = (codeBook.hrgcod == ViewBag.SelectedId) ? "selected" : "";
+                                <option value="@codeBook.hrgcod" selected="@selected">@codeBook.hrgdesc</option>
+                            }
+                        </select>
+
+
+                    </div>
+             
+                    
+                </div>
+                <div class="col-lg-2">
+                    <label for="codeId"></label>
+                    <button type="submit" class="btn btn-primary mt-4">View Details</button>
+                </div>
+            </div>
+                </form>
+
+  
+        </div>
+        <div class="card-body">
+        @if (Model != null && Model.Any())
+        {
+          
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Code ID</th>
+                        <th>Code Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var codeBook in Model)
+                    {
+                        <tr>
+                            <td>@codeBook.hrgcod</td>
+                            <td>@codeBook.hrgdesc</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSubCodeModal_@codeBook.hrgcod">
+                                    Add Sub-Code
+                                </button>
+
+                                <div class="modal fade" id="addSubCodeModal_@codeBook.hrgcod" tabindex="-1" role="dialog" aria-labelledby="addSubCodeModalLabel_@codeBook.hrgcod" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addSubCodeModalLabel_@codeBook.hrgcod">Add Sub-Code</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form asp-controller="CodeBook" asp-action="AddSubCode" method="post">
+                                                    <input type="hidden" name="id" value="@codeBook.hrgcod" /> <!-- Change name to "id" -->
+
+                                                    <div class="form-group">
+                                                        <label for="subCode">Sub-Code:</label>
+                                                        <input type="text" class="form-control" id="hrgcod" name="codeBook.hrgcod" required /> <!-- Adjust name to match model property -->
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label for="subCodeDescription">Sub-Code Description:</label>
+                                                        <input type="text" class="form-control" id="subCodeDescription" name="codeBook.hrgdesc" required /> <!-- Adjust name to match model property -->
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="format">Format:</label>
+                                                        <input type="text" class="form-control" id="format" name="codeBook.hrgval" required /> <!-- Adjust name to match model property -->
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary">Add Sub-Code</button>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        </div>
+    </div>
+

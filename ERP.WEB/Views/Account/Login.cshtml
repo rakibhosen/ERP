@@ -1,0 +1,222 @@
+﻿@model ERP.ENTITY.ViewModels.Auth.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+
+
+
+
+
+
+
+
+@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Log in (v2)</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="~/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/css/adminlte.min.css">
+</head>
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center">
+                <a href="../../index2.html" class="h1">PTL ERP</a>
+            </div>
+            <div class="card-body">
+              
+
+               
+
+                <form asp-action="Login" asp-controller="Account" method="post" class="login-form">
+                    <div class="form-group mt-5">
+                        <select asp-for="SelectedCompanyCode" asp-items="Model.CompanyList" class="form-control">
+                            <option value="">Select Company</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="Username" class="form-control" placeholder="User Name">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input id="passwordInput" type="password" name="Password" class="form-control" placeholder="Password">
+                            <div class="input-group-append">
+                                <span class="input-group-text"><i id="togglePassword" class="fas fa-eye"></i></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="remember" class="form-check-input">
+                        <label for="remember" class="form-check-label">Remember Me</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                </form>
+
+
+
+                <!-- /.social-auth-links -->
+
+                <p class="mb-1">
+                    <a href="forgot-password.html">I forgot my password</a>
+                </p>
+  
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="~/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="~/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="~/js/adminlte.min.js"></script>
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('passwordInput');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
+
+</body>
+</html>
+ *@
+
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+
+* {
+  box-sizing: border-box;
+}
+
+        body {
+            display: flex;
+            flex-direction: column; /* Corrected property name */
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            min-height: 100vh;
+  /*           background: #3498DB; */
+            font-family: "Open Sans";
+            /* The image used */
+            background-image: url("../../img/loginbak.jpg");
+            /* Full height */
+            height: 100%;
+            /* Center and scale the image nicely */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+
+#signin {
+  padding: 1em;
+  margin: 1em;
+  border-radius: 1em;
+  text-align: center;
+  background: white;
+  color: rgba(0,0,0,0.75);
+  
+  h1, button {
+    font-weight: 300;
+    text-transform: uppercase;
+  }
+  
+  .error {
+    background: rgba(255, 0, 0, 0.4);
+    color: white;
+    text-shadow:  0 1px 0 rgba(255, 100, 100, 0.75);
+    
+    margin-left: -1em;
+    margin-right: -1em;
+    margin-bottom: 1ex;
+    
+    padding: 1ex;
+    
+    border-top: 1px solid rgba(255, 100, 100, 0.75);
+    border-bottom: 1px solid rgba(255, 100, 100, 0.75);
+  }
+  
+  input, button,select {
+    display: block;
+    width: 100%;
+    
+    /* text-align: center; */
+    font-size: 1.1em;
+    padding: 1ex;
+    border: 2px solid #ECF0F1;
+    transition: border ease 500ms;
+    border-radius: 1ex;
+    font-family: "Open Sans";
+    background: #ECF0F1;
+    color: #181818;
+    
+    &:focus {
+      outline: none;
+      border: 2px solid #3498DB;
+    }
+    
+    &:not(:last-child) {
+      margin-bottom: 1ex;
+    }
+  }
+  button {
+    color: white;
+    border: 2px solid #3498DB;
+    background: #3498DB;
+  }
+}
+    </style>
+</head>
+<body class="hold-transition login-page">
+    <div id="signin">
+        <h1>Sign in</h1>
+
+        <div asp-validation-summary="ModelOnly" class="error"></div>
+
+        <form asp-action="Login" asp-controller="Account" method="post" class="login-form">
+
+                <select asp-for="SelectedCompanyCode" asp-items="Model.CompanyList" >
+                    <option value="">Select Company</option>
+                </select>
+        
+            <input type="text" name="Username" placeholder="Username" />
+            <input type="password" name="Password" placeholder="Password" />
+
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+</body>
+</html>

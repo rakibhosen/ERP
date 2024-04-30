@@ -1,0 +1,30 @@
+﻿@model IEnumerable<ERP.ENTITY.Models.Menu.ModuleInfo>
+
+<nav class="mt-2">
+    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        @foreach (var module in Model)
+        {
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon @module.modicon"></i>
+                    <p>
+                        @module.name
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    @foreach (var submodule in module.ModulePermissions)
+                    {
+                        <li class="nav-item">
+                            <a href="@Url.Action(submodule.action, submodule.controller, new { moduleid = submodule.mid, area = submodule.area })"  class="nav-link">
+                                <i class="nav-icon @submodule.icon"></i>
+                                <p>@submodule.submodname</p>
+                            </a>
+                        </li>
+
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</nav>

@@ -1,0 +1,132 @@
+﻿@using System.Security.Policy;
+@section styles {
+    <style>
+   
+        /* Your custom styles for the Menu page */
+        .entry-screens {
+            /* Add your styles for EntryScreens menu items */
+        }
+
+        .reports {
+            /* Add your styles for Reports menu items */
+        }
+
+        .other {
+            /* Add your styles for other menu items */
+        }
+
+        #othersMenu ul li a{
+            color:#000!important;
+            text-decoration:none;
+        }
+
+        .card .nav.flex-column:not(.nav-sidebar) > li{
+            border-bottom:0!important;        }
+    </style>
+}
+
+<div class="row mt-1">
+
+
+    <div class="col-4">
+        <div class="card" style="min-height:500px;">
+            <div class="card-header bg-info p-1"><i class="fa fa-edit"></i> One Time Input</div>
+
+                <ul id="entryScreensMenu" class="nav flex-column"></ul>
+
+        </div>
+    </div>
+  
+
+    <div class="col-4">
+        <div class="card" style="min-height:500px;">
+            <div class="card-header bg-info p-1"> <i class="fa fa-file"></i> Entry screen</div>
+
+                <ul id="reportsMenu" class="nav flex-column"></ul>
+
+        </div>
+    </div>
+
+
+    <div class="col-4">
+        <div class="card" style="min-height:500px;">
+            <div class="card-header bg-info p-1"><i class="fa fa-file-alt"></i> Reports</div>
+
+                <ul id="othersMenu" class="nav flex-column"></ul>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var baseUrl = window.location.origin;
+
+    // Load menu data from server
+    $(document).ready(function () {
+        // Get moduleid from query string
+        const urlParams = new URLSearchParams(window.location.search);
+        const moduleId = urlParams.get('moduleid');
+        console.log('Data1')
+
+        $.ajax({
+            url: '/Menu/GetMenuData',
+            method: 'GET',
+            data: { moduleid: moduleId },
+            success: function (response) {
+                renderMenu(response);
+                console.log(response, 'Data')
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching menu data:', error);
+            }
+        });
+
+        // render menu based on response data
+        function renderMenu(menuData) {
+            // Clear existing menu items
+            $('#entryScreensMenu').empty();
+            $('#reportsMenu').empty();
+            $('#othersMenu').empty();
+
+            // Iterate through each menu type
+            var menuTypes = ['EntryScreens', 'Reports', 'Others'];
+            menuTypes.forEach(function (menuType) {
+                // Filter menu items based on menu type
+                var filteredMenu = menuData.filter(function (item) {
+                    return item.pagetype === menuType;
+                });
+
+                // Define a counter for serial numbers
+                var serialNumber = 1;
+
+                // Iterate through the filtered menu items
+                filteredMenu.forEach(function (menuItem) {
+                    // Construct the menu item HTML
+                    var menuItemHtml = '<li class="nav-item">';
+                    menuItemHtml += '<a class="nav-link p-1" href="' + baseUrl + '/' + menuItem.area + '/' + menuItem.controller + '/' + menuItem.action + '">';
+
+                    // Add serial number with leading zero if needed
+                    menuItemHtml += ('0' + serialNumber).slice(-2) + '. ' + menuItem.name;
+
+                    menuItemHtml += '</a></li>';
+
+                    // Append the menu item to the corresponding menu based on pagetype
+                    switch (menuItem.pagetype) {
+                        case 'EntryScreens':
+                            $('#entryScreensMenu').append(menuItemHtml);
+                            break;
+                        case 'Reports':
+                            $('#reportsMenu').append(menuItemHtml);
+                            break;
+                        default:
+                            $('#othersMenu').append(menuItemHtml);
+                    }
+
+                    // Increment the serial number for the next menu item
+                    serialNumber++;
+                });
+            });
+        }
+    });
+</script>
+

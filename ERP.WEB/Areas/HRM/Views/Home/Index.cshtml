@@ -1,0 +1,109 @@
+﻿@using ERP.ENTITY.Models.HRM._03.Employee;
+@model IEnumerable<Employee>
+
+<div class="card mt-2">
+    <div class="card-header bg-light">Employee List</div>
+    <div class="card-body">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td><input type="text" class="form-control" value="@employee.FirstName" id="firstName_@employee.EmployeeId" readonly /></td>
+                        <td><input type="text" class="form-control" value="@employee.LastName" id="lastName_@employee.EmployeeId" readonly /></td>
+                        <td>
+                            @{
+                                var imageUrl = string.IsNullOrEmpty(employee.EmpImg) ? "~/Images/user.png" : employee.EmpImg;
+                            }
+                            <img src="@Url.Content(imageUrl)" alt="Employee Image" style="max-width: 50px; max-height: 50px; cursor: pointer;" id="img_@employee.EmployeeId" onclick="toggleImageUpload('@employee.EmployeeId')" class="rounded-circle" />
+                            <input type="file" id="empImg_@employee.EmployeeId" style="display: none;" onchange="previewImage(this, '@employee.EmployeeId')" name="imageFile" accept="image/*" class="img-circle" />
+                        </td>
+                        <td>
+                            <button class="btn btn-info" id="editBtn_@employee.EmployeeId" onclick="toggleEdit(@employee.EmployeeId)"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-dark" id="saveBtn_@employee.EmployeeId" style="display:none;" onclick="updateEmployee(@employee.EmployeeId)"><i class="fas fa-save"></i></button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<script>
+    function toggleEdit(employeeId) {
+        var firstNameInput = document.getElementById('firstName_' + employeeId);
+        var lastNameInput = document.getElementById('lastName_' + employeeId);
+        var editButton = document.querySelector('#editBtn_' + employeeId);
+        var saveButton = document.querySelector('#saveBtn_' + employeeId);
+
+        if (firstNameInput.readOnly) {
+            // Enable editing
+            firstNameInput.removeAttribute('readonly');
+            lastNameInput.removeAttribute('readonly');
+            // Show the save button
+            saveButton.style.display = 'inline-block';
+            // Change button icon to "Cancel"
+            editButton.innerHTML = '<i class="fas fa-times"></i>';
+        } else {
+            // Disable editing
+            firstNameInput.setAttribute('readonly', true);
+            lastNameInput.setAttribute('readonly', true);
+            // Hide the save button
+            saveButton.style.display = 'none';
+            // Reset input values if needed
+            editButton.innerHTML = '<i class="fas fa-edit"></i>';
+        }
+    }
+
+    function toggleImageUpload(employeeId) {
+        var fileInput = document.getElementById('empImg_' + employeeId);
+        fileInput.click(); // Trigger file input click event
+    }
+
+    function updateEmployee(employeeId) {
+        var formData = new FormData();
+        formData.append("EmployeeId", employeeId);
+        formData.append("FirstName", document.getElementById('firstName_' + employeeId).value);
+        formData.append("LastName", document.getElementById('lastName_' + employeeId).value);
+
+        var fileInput = document.getElementById('empImg_' + employeeId);
+        if (fileInput.files.length > 0) {
+            formData.append("imageFile", fileInput.files[0]);
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/HRM/Home/UpdateEmployee',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                alert('Employee updated successfully');
+                toggleEdit(employeeId); // Exit edit mode after  update
+            },
+            error: function (error) {
+                alert('Error updating employee');
+            }
+        });
+    }
+
+    function previewImage(input, employeeId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#img_' + employeeId).attr('src', e.target.result);
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
